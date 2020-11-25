@@ -226,6 +226,7 @@ def execute_db_timing():
               pass
           else:
               var.print_ram.append(f'execute_db_timing | An error occured | {ms}')
+    var.print_ram.append('execute_db_timing | Exited')
 
 
 accept_connectiont = threading.Thread(target=accept_conn_t)
