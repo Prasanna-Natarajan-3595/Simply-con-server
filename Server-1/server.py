@@ -6,7 +6,7 @@ import os
 
 
 class var:
-    host = socket.gethostbyname(socket.gethostname())
+    host = '0.0.0.0'
     port = 4983
     key = os.getenv('key')
     hosts = os.getenv('host')
