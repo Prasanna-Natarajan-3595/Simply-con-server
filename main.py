@@ -193,7 +193,7 @@ def execute_db_timing():
                 IST = pytz.timezone('Asia/Kolkata')
                 datetime_ist = datetime.datetime.now(IST)
                 now = int(datetime_ist.strftime('%H%M'))
-                var.print_ram.append(now)
+                
                 if var.times == [host, value, tim]:
                   pass
                 else:
