@@ -8,11 +8,11 @@ import os
 class var:
     host = '0.0.0.0'
     port = 4983
-    key = os.getenv('key')
-    hosts = os.getenv('host')
-    db = os.getenv('db')
-    user = os.getenv('user')
-    password = os.getenv('password')
+    key = '0K-9VkXgzYFQz6_wG_UDFWlqRlbCj_R9LUH_CCjtlyo='
+    hosts = 'ec2-18-235-109-97.compute-1.amazonaws.com'
+    db = 'dal03e016sa4tr'
+    user = 'xgheklawiqwvfd'
+    password = '21603b4c8075e1baf5cdb8e81c3f39d833896842abfcb4c2426cc4a2afe46b60'
     address = []
     connection = []
     print_ram = []
