@@ -9,7 +9,7 @@ import os
 
 
 class var:
-    host = ''
+    host = '0.0.0.0'
     port_2 = 3675
     key = '0K-9VkXgzYFQz6_wG_UDFWlqRlbCj_R9LUH_CCjtlyo='
     hosts = 'ec2-18-235-109-97.compute-1.amazonaws.com'
