@@ -38,7 +38,7 @@ t.listen(100)
 
 con = psycopg2.connect(database=var.db, user=var.user,
                       password=var.password, host=var.hosts)
-#con = psycopg2.connect(user=var.hosts,password=var.password,database=var.db,host=var.hosts)
+
 cur = con.cursor()
 
 var.print_ram.append('Initializing successful')
@@ -173,16 +173,19 @@ def accept_conn_t():
 def execute_db_timing():
     var.print_ram.append('DB_timing | started')
     while True:
+      var.print_ram.append('Looped')
       try:
         try:
             cur.execute("SELECT id,name,email,password,timing_host,timing_value,timing_time,hostname FROM data ORDER BY id")
             valas = cur.fetchall()
+
         except:
             continue
 
         for e in valas:
+            var.print_ram.append('Fored 1')
             for no, i in enumerate(e[4]):
-
+                var.print_ram.append('Fored 2')
                 host = i
                 value = e[5][no]
                 hostname = e[7][no]
@@ -190,6 +193,7 @@ def execute_db_timing():
                 IST = pytz.timezone('Asia/Kolkata')
                 datetime_ist = datetime.datetime.now(IST)
                 now = int(datetime_ist.strftime('%H%M'))
+                var.print_ram.append(now)
                 if var.times == [host, value, tim]:
                   pass
                 else:
@@ -240,6 +244,10 @@ accept_connection.start()
 sensor = threading.Thread(target=sensor)
 sensor.daemon = True
 sensor.start()
+
+db_timings = threading.Thread(target=execute_db_timing)
+db_timings.daemon = True
+db_timings.start()
 
 
 execute_db_sensor()
