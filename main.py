@@ -173,7 +173,7 @@ def accept_conn_t():
 def execute_db_timing():
     var.print_ram.append('DB_timing | started')
     while True:
-      var.print_ram.append('Looped')
+     
       try:
         try:
             cur.execute("SELECT id,name,email,password,timing_host,timing_value,timing_time,hostname FROM data ORDER BY id")
@@ -183,9 +183,9 @@ def execute_db_timing():
             continue
 
         for e in valas:
-            var.print_ram.append('Fored 1')
+            
             for no, i in enumerate(e[4]):
-                var.print_ram.append('Fored 2')
+                
                 host = i
                 value = e[5][no]
                 hostname = e[7][no]
@@ -198,6 +198,7 @@ def execute_db_timing():
                   pass
                 else:
                     if tim == now:
+                        var.print_ram.append(f'DB_timing | {var.addresst} | addresses')
                         if host in var.addresst:
                             try:
                                for e,_ in enumerate(var.addresst):
