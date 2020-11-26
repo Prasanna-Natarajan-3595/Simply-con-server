@@ -48,9 +48,9 @@ ct.listen(100)
 
 
 
-#con = psycopg2.connect(database=var.db, user=var.user,
- #                      password=var.password, host=var.hosts)
-con = psycopg2.connect(database='simplycon',user='postgres',password='2005')
+con = psycopg2.connect(database=var.db, user=var.user,
+                       password=var.password, host=var.hosts)
+#con = psycopg2.connect(database='simplycon',user='postgres',password='2005')
 cur = con.cursor()
 
 var.print_ram.append('Initializing successful')
