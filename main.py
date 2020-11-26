@@ -297,35 +297,35 @@ def execute_db_timing():
 
 def contactor():
     while True:
-        for no,i in enumerate(var.connections):
-            try:
-                i.send('pulse'.encode())
-                i.settimeout(5.0)
-                i.recv(1024)
-            except:
-                var.print_ram.append(f'Contactor | closed connection with | {var.names[no]} | {var.addresss[no]}')
-
-                var.names.remove(var.names[no])
-                var.addresss.remove(var.addresss[no])
-                var.connection.remove(var.connection[no])
-                var.connections.remove(i)
-                var.name.remove(var.name[no])
-                var.address.remove(var.address[no])
-        for no2,i2 in enumerate(var.connectionst):
-            try:
-                i2.send('pulse'.encode())
-                i2.settimeout(5.0)
-                i2.recv(1024)
-            except:
-                var.print_ram.append(f'Contactor time | closed connection with | {var.namest[no2]} | {var.addresst[no2]}')
-                var.connectiont.remove(var.connectiont[no2])
-                var.connectionst.remove(i2)
-                var.namest.remove(var.names[no2])
-                var.addressst.remove(var.addresss[no2])
-
-                var.namet.remove(var.name[no2])
-                var.addresst.remove(var.address[no2])
-
+        try:
+            for no,i in enumerate(var.connections):
+                try:
+                    i.send('pulse'.encode())
+                    i.settimeout(5.0)
+                    i.recv(1024)
+                except:
+                    var.print_ram.append(f'Contactor | closed connection with | {var.names[no]} | {var.addresss[no]}')
+                    var.names.remove(var.names[no])
+                    var.addresss.remove(var.addresss[no])
+                    var.connection.remove(var.connection[no])
+                    var.connections.remove(i)
+                    var.name.remove(var.name[no])
+                    var.address.remove(var.address[no])
+            for no2,i2 in enumerate(var.connectionst):
+                try:
+                    i2.send('pulse'.encode())
+                    i2.settimeout(5.0)
+                    i2.recv(1024)
+                except:
+                    var.print_ram.append(f'Contactor time | closed connection with | {var.namest[no2]} | {var.addresst[no2]}')
+                    var.connectiont.remove(var.connectiont[no2])
+                    var.connectionst.remove(i2)
+                    var.namest.remove(var.names[no2])
+                    var.addressst.remove(var.addresss[no2])
+                    var.namet.remove(var.name[no2])
+                    var.addresst.remove(var.address[no2])
+        except:
+            pass
 
 
 accept_connectiont = threading.Thread(target=accept_conn_t)
