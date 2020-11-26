@@ -278,10 +278,8 @@ def execute_db_timing():
                                            var.print_ram.append(f'DB_timing | sent {host} | value {value}')
 
 
-                            except Exception:
-                                var.print_ram.append(f'DB_timing | removing {host}')
-                                var.connectiont.remove(var.connectiont.index(host))
-                                var.addresst.remove(host)
+                            except Exception as ms:
+                                var.print_ram.append(f'DB_timing | got error |{ms}'}
                         else:
                             pass
                     else:
