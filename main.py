@@ -24,15 +24,27 @@ class var:
     addresst = []
     connectiont = []
     namet = []
+    addresss = []
+    connections = []
+    names = []
+    addressst = []
+    connectionst = []
+    namest = []
 
 
 var.print_ram.append('Initializing...')
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((var.host, var.port))
 s.listen(100)
+cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+cs.bind((var.host, 4982))
+cs.listen(100)
 t = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 t.bind((var.host, var.port_2))
 t.listen(100)
+ct = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+ct.bind((var.host, 3674))
+ct.listen(100)
 
 
 
@@ -73,6 +85,29 @@ def accept_conn():
                 var.address.append(addr[0])
 
                 var.name.append(decrypted_message)
+            else:
+                conn.close()
+                var.print_ram.append(f'Accepting connection | closed connection with | {addr}')
+
+        except Exception as e:
+            var.print_ram.append(f'Accepting connection | error | {e}')
+        try:
+            conn, addr = cs.accept()
+            var.print_ram.append('Accepting connection | connecting...')
+            conn.settimeout(5.0)
+            pas = conn.recv(1024).decode()
+            var.print_ram.append(f'Accepting connection | password received | {pas}')
+            if pas == 'afhihytu49t6475673':
+                conn.send(bytes('hfoahguaytfas235425@#$@', 'utf-8'))
+                val = conn.recv(1024)
+                f = Fernet(var.key)
+                decrypted_message = f.decrypt(val).decode()
+                var.print_ram.append(f'Accepting connection | Connection successful | {decrypted_message}')
+                s.setblocking(True)
+                var.connections.append(conn)
+                var.addresss.append(addr[0])
+
+                var.names.append(decrypted_message)
             else:
                 conn.close()
                 var.print_ram.append(f'Accepting connection | closed connection with | {addr}')
@@ -148,6 +183,7 @@ def sensor():
             var.ram.remove(r)
       except Exception as s:
           pass
+
 def accept_conn_t():
     var.print_ram.append('Accepting connection timing | started')
     while True:
@@ -168,6 +204,29 @@ def accept_conn_t():
                 var.addresst.append(addr[0])
 
                 var.namet.append(decrypted_message)
+            else:
+                conn.close()
+                var.print_ram.append(f'Accepting connection timing | closed connection with | {addr}')
+
+        except Exception as e:
+            var.print_ram.append(f'Accepting connection timing | error | {e}')
+        try:
+            conn, addr = ct.accept()
+            var.print_ram.append('Accepting connection timing | connecting...')
+            conn.settimeout(5.0)
+            pas = conn.recv(1024).decode()
+            var.print_ram.append(f'Accepting connection timing | password received | {pas}')
+            if pas == 'afhihytu49t6475673':
+                conn.send(bytes('hfoahguaytfas235425@#$@', 'utf-8'))
+                val = conn.recv(1024)
+                f = Fernet(var.key)
+                decrypted_message = f.decrypt(val).decode()
+                var.print_ram.append(f'Accepting connection timing | Connection successful | {decrypted_message}')
+                t.setblocking(True)
+                var.connectionst.append(conn)
+                var.addressst.append(addr[0])
+
+                var.namest.append(decrypted_message)
             else:
                 conn.close()
                 var.print_ram.append(f'Accepting connection timing | closed connection with | {addr}')
@@ -236,6 +295,38 @@ def execute_db_timing():
               var.print_ram.append(f'execute_db_timing | An error occured | {ms}')
     var.print_ram.append('execute_db_timing | Exited')
 
+def contactor():
+    while True:
+        for no,i in enumerate(var.connections):
+            try:
+                i.send('pulse'.encode())
+                i.settimeout(5.0)
+                i.recv(1024)
+            except:
+                var.print_ram.append(f'Contactor | closed connection with | {var.names[no]} | {var.addresss[no]}')
+
+                var.names.remove(var.names[no])
+                var.addresss.remove(var.addresss[no])
+                var.connection.remove(var.connection[no])
+                var.connections.remove(i)
+                var.name.remove(var.name[no])
+                var.address.remove(var.address[no])
+        for no2,i2 in enumerate(var.connectionst):
+            try:
+                i2.send('pulse')
+                i2.settimeout(5.0)
+                i2.recv(1024)
+            except:
+                var.print_ram.append(f'Contactor time | closed connection with | {var.namest[no2]} | {var.addresss[no2]}')
+                var.connectiont.remove(var.connectiont[no2])
+                var.connectionst.remove(i2)
+                var.namest.remove(var.names[no2])
+                var.addressst.remove(var.addresss[no2])
+
+                var.namet.remove(var.name[no2])
+                var.addresst.remove(var.address[no2])
+
+
 
 accept_connectiont = threading.Thread(target=accept_conn_t)
 accept_connectiont.daemon = True
@@ -258,5 +349,8 @@ db_timings = threading.Thread(target=execute_db_timing)
 db_timings.daemon = True
 db_timings.start()
 
+h = threading.Thread(target=contactor)
+h.daemon = True
+h.start()
 
 execute_db_sensor()
