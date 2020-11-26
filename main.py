@@ -59,6 +59,7 @@ def accept_conn():
         try:
             conn, addr = s.accept()
             var.print_ram.append('Accepting connection | connecting...')
+            conn.settimeout(5.0)
             pas = conn.recv(1024).decode()
             var.print_ram.append(f'Accepting connection | password received | {pas}')
             if pas == 'afhihytu49t6475673':
@@ -151,6 +152,7 @@ def accept_conn_t():
         try:
             conn, addr = t.accept()
             var.print_ram.append('Accepting connection timing | connecting...')
+            conn.settimeout(5.0)
             pas = conn.recv(1024).decode()
             var.print_ram.append(f'Accepting connection timing | password received | {pas}')
             if pas == 'afhihytu49t6475673':
