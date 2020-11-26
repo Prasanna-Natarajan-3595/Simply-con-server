@@ -36,9 +36,9 @@ t.listen(100)
 
 
 
-con = psycopg2.connect(database=var.db, user=var.user,
-                       password=var.password, host=var.hosts)
-#con = psycopg2.connect(database='simplycon',user='postgres',password='2005')
+#con = psycopg2.connect(database=var.db, user=var.user,
+ #                      password=var.password, host=var.hosts)
+con = psycopg2.connect(database='simplycon',user='postgres',password='2005')
 cur = con.cursor()
 
 var.print_ram.append('Initializing successful')
@@ -86,30 +86,32 @@ def execute_db_sensor():
     while True:
         try:
             try:
-                cur.execute("SELECT sensor_host,id FROM data ORDER BY id")
+                cur.execute("SELECT sensor_host,id,hostname_sensor FROM data ORDER BY id")
                 valss = cur.fetchall()
             except:
                 continue
-
             for i in valss:
                 for no, e in enumerate(i[0]):
 
                     host = e
+                    hostname = i[2][no]
                     try:
                         for e, _ in enumerate(var.address):
-
                             if _ == host:
+                                    if var.name[e] == hostname:
+                                        var.connection[e].settimeout(5.0)
+                                        val = var.connection[e].recv(1024)
 
-                                    var.connection[e].settimeout(5.0)
-                                    val = var.connection[e].recv(1024)
-                                    f = Fernet(var.key)
-                                    decrypted_message = f.decrypt(val).decode()
-                                    if len(decrypted_message) > 0:
-                                        var.print_ram.append(f'DB_sensor | value received | {decrypted_message} | from {host}')
-                                        var.ram.append([decrypted_message, host])
+                                        f = Fernet(var.key)
+                                        decrypted_message = f.decrypt(val).decode()
+                                        if len(decrypted_message) > 0:
+                                            var.print_ram.append(f'DB_sensor | value received | {decrypted_message} | from {host}')
+                                            var.ram.append([decrypted_message, host])
 
-                                    else:
-                                        pass
+                                        else:
+                                            pass
+                            else:
+                                pass
                     except:
                         pass
 
