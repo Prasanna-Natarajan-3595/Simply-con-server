@@ -36,9 +36,9 @@ t.listen(100)
 
 
 
-con = psycopg2.connect(database=var.db, user=var.user,
-                      password=var.password, host=var.hosts)
-
+# con = psycopg2.connect(database=var.db, user=var.user,
+#                       password=var.password, host=var.hosts)
+con = psycopg2.connect(database='simplycon',user='postgres',password='2005')
 cur = con.cursor()
 
 var.print_ram.append('Initializing successful')
@@ -96,7 +96,10 @@ def execute_db_sensor():
                     host = e
                     try:
                         for e, _ in enumerate(var.address):
+
                             if _ == host:
+
+                                    var.connection[e].settimeout(5.0)
                                     val = var.connection[e].recv(1024)
                                     f = Fernet(var.key)
                                     decrypted_message = f.decrypt(val).decode()
