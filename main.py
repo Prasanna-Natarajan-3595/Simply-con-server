@@ -2,7 +2,6 @@ import socket
 import threading
 import psycopg2
 from cryptography.fernet import Fernet
-import os
 import datetime
 import pytz
 
@@ -279,7 +278,7 @@ def execute_db_timing():
 
 
                             except Exception as ms:
-                                var.print_ram.append(f'DB_timing | got error |{ms}'}
+                                var.print_ram.append(f'DB_timing | got error |{ms}')
                         else:
                             pass
                     else:
@@ -318,10 +317,10 @@ def contactor():
                     var.print_ram.append(f'Contactor time | closed connection with | {var.namest[no2]} | {var.addresst[no2]}')
                     var.connectiont.remove(var.connectiont[no2])
                     var.connectionst.remove(i2)
-                    var.namest.remove(var.names[no2])
-                    var.addressst.remove(var.addresss[no2])
-                    var.namet.remove(var.name[no2])
-                    var.addresst.remove(var.address[no2])
+                    var.namest.remove(var.namest[no2])
+                    var.addressst.remove(var.addressst[no2])
+                    var.namet.remove(var.namet[no2])
+                    var.addresst.remove(var.addresst[no2])
         except:
             pass
 
